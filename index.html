@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>AirFly × TempMachi | LINE会員限定シークレットセール</title>
+  <meta name="description" content="TempMachi LINE登録者限定。世界初・鼻パッドなしのスポーツサングラス「AirFly（エアフライ）」を特別割引でご提供。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* =====================================================
+       CSS カスタムプロパティ
+    ===================================================== */
+    :root {
+      --color-bg-primary:    #0a0a0f;
+      --color-bg-card:       #12121a;
+      --color-bg-surface:    #16161f;
+      --color-accent-blue:   #00c8ff;
+      --color-accent-yellow: #f5e642;
+      --color-text-primary:  #f0f0f5;
+      --color-text-secondary:#8888a8;
+      --color-text-price:    #00c8ff;
+      --color-strikethrough: #554444;
+      --color-cta-btn:       #00c8ff;
+      --color-cta-btn-text:  #0a0a0f;
+      --color-border:        rgba(0,200,255,0.15);
+      --font-display:        'Bebas Neue', sans-serif;
+      --font-body:           'Noto Sans JP', sans-serif;
+      --radius-card:         12px;
+      --max-width:           960px;
+      --transition-fast:     0.25s ease;
+    }
+
+    /* =====================================================
+       リセット & ベース
+    ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* =====================================================
+       スクロールフェードインアニメーション
+    ===================================================== */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.65s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-in-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-in-up:nth-child(4) { transition-delay: 0.3s; }
+    .fade-in-up:nth-child(5) { transition-delay: 0.4s; }
+
+    /* =====================================================
+       割引バナー (固定)
+    ===================================================== */
+    #discount-banner {
+      position: relative;
+      z-index: 100;
+      padding: 14px 20px;
+      text-align: center;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(0.78rem, 3.5vw, 1rem);
+      letter-spacing: 0.03em;
+      line-height: 1.5;
+      background: linear-gradient(90deg, #c83200 0%, #ff9500 100%);
+      color: #fff;
+    }
+    #discount-banner .banner-icon {
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 1.1em;
+      vertical-align: -2px;
+    }
+
+    /* =====================================================
+       ナビ（ロゴ）
+    ===================================================== */
+    #nav {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: rgba(10,10,15,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .nav-logo-img {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+    }
+    .nav-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #00c8ff, #0088cc);
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* =====================================================
+       ファーストビュー（#hero）
+    ===================================================== */
+    #hero {
+      position: relative;
+      min-height: 92svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px 80px;
+      overflow: hidden;
+    }
+    #hero::before, #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    #hero::before {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 30%, rgba(0,100,200,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(0,200,255,0.10) 0%, transparent 60%),
+        linear-gradient(160deg, #0a0a0f 0%, #0d0d1a 50%, #0a0a0f 100%);
+    }
+    #hero::after {
+      background-image:
+        linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-accent-blue);
+      background: rgba(0,200,255,0.1);
+      border: 1px solid rgba(0,200,255,0.3);
+      border-radius: 20px;
+      padding: 5px 16px;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 18vw, 8rem);
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(0,200,255,0.4), 0 2px 0 rgba(0,0,0,0.6);
+      margin-bottom: 8px;
+    }
+    .hero-title span {
+      color: var(--color-accent-blue);
+      display: block;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      margin-bottom: 32px;
+      letter-spacing: 0.05em;
+    }
+    .hero-line-note {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      margin-top: 20px;
+    }
+    .hero-stripe {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 1;
+    }
+    .hero-stripe svg { display: block; width: 100%; height: 100%; }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-text-secondary);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: bounceDown 2s ease infinite;
+    }
+    .scroll-indicator svg { opacity: 0.6; }
+    @keyframes bounceDown { 0%,100%{transform: translateX(-50%) translateY(0);} 50%{transform: translateX(-50%) translateY(8px);} }
+
+    /* =====================================================
+       共通セクションスタイル
+    ===================================================== */
+    section { padding: 72px 20px; }
+    .inner { max-width: var(--max-width); margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-accent-blue);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(1.5rem, 6vw, 2.6rem);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 0.92rem;
+      color: var(--color-text-secondary);
+      max-width: 520px;
+      line-height: 1.8;
+    }
+    .divider {
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-accent-blue), transparent);
+      margin: 16px 0 28px;
+      border-radius: 2px;
+    }
+
+    /* =====================================================
+       #features セクション
+    ===================================================== */
+    #features { background: var(--color-bg-surface); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .feature-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition-fast), transform var(--transition-fast);
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-accent-blue), transparent);
+    }
+    .feature-card:hover {
+      border-color: rgba(0,200,255,0.4);
+      transform: translateY(-4px);
+    }
+    .feature-icon { font-size: 2.4rem; margin-bottom: 14px; display: block; }
+    .feature-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--color-text-primary); }
+    .feature-desc { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.75; }
+
+    /* =====================================================
+       #products セクション（写真なし・テキスト特化版）
+    ===================================================== */
+    #products { background: var(--color-bg-primary); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .product-text-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+    .product-text-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: linear-gradient(180deg, var(--color-accent-blue), transparent);
+    }
+    .product-text-card:hover {
+      border-color: rgba(0,200,255,0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,200,255,0.08);
+    }
+    .product-text-code {
+      font-size: 1.3rem; font-weight: 900; font-family: var(--font-display);
+      letter-spacing: 0.08em; color: var(--color-accent-blue); margin-bottom: 12px;
+    }
+    .product-text-desc {
+      font-size: 0.85rem; color: var(--color-text-primary); line-height: 1.6; margin-bottom: 24px;
+    }
+    .product-text-price-block {
+      border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 16px;
+    }
+    .price-label { font-size: 0.72rem; color: var(--color-text-secondary); letter-spacing: 0.05em; display:block; margin-bottom:4px; }
+    .price-original { font-size: 0.9rem; color: var(--color-text-secondary); text-decoration: line-through; display:block; margin-bottom:12px; }
+    .price-sale-row { display: flex; align-items: baseline; gap: 4px; }
+    .price-sale {
+      font-family: var(--font-display); font-size: 2rem; color: var(--color-text-price);
+      letter-spacing: 0.03em; text-shadow: 0 0 16px rgba(0,200,255,0.3); line-height: 1;
+    }
+    .price-sale-unit { font-size: 0.9rem; font-weight: 700; color: var(--color-text-price); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1.5px solid var(--color-accent-blue);
+      color: var(--color-accent-blue);
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+      margin-top: 36px;
+    }
+    .btn-outline:hover { background: var(--color-accent-blue); color: #000; transform: scale(1.03); }
+
+    /* =====================================================
+       #order-form セクション（簡易シミュレーター）
+    ===================================================== */
+    #order-form {
+      background: var(--color-bg-surface);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .order-box {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 48px 32px;
+      max-width: 680px;
+      margin: 0 auto;
+      margin-top: 32px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+    .order-form-group {
+      margin-bottom: 24px;
+    }
+    .order-form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-accent-blue);
+      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+    }
+    .order-select {
+      width: 100%;
+      background: #1a1a24;
+      border: 1px solid rgba(0,200,255,0.3);
+      color: var(--color-text-primary);
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      transition: all 0.3s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%2300c8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 18px;
+      cursor: pointer;
+    }
+    .order-select:focus {
+      outline: none;
+      border-color: var(--color-accent-blue);
+      box-shadow: 0 0 16px rgba(0,200,255,0.2);
+    }
+    .order-price-result {
+      margin-top: 40px;
+      padding: 32px 24px;
+      background: rgba(0,200,255,0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(0,200,255,0.2);
+      text-align: center;
+    }
+    .order-submit-btn-wrap { margin-top: 32px; text-align: center; }
+
+    .order-note-text {
+      font-size: 0.85rem;
+      color: var(--color-text-primary);
+      background: rgba(255,255,255,0.05);
+      border-left: 3px solid var(--color-accent-blue);
+      padding: 16px;
+      border-radius: 4px;
+      margin-top: 32px;
+      line-height: 1.6;
+    }
+
+    /* =====================================================
+       #how-to-order セクション
+    ===================================================== */
+    #how-to-order { background: var(--color-bg-primary); }
+    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 40px; position: relative; }
+    .steps::before {
+      content: ''; position: absolute; left: 27px; top: 54px; bottom: 54px; width: 2px;
+      background: linear-gradient(180deg, var(--color-accent-blue), rgba(0,200,255,0.1)); z-index: 0;
+    }
+    .step { display: flex; gap: 20px; align-items: flex-start; padding: 24px 0; position: relative; z-index: 1; }
+    .step-num {
+      flex-shrink: 0; width: 54px; height: 54px; border-radius: 50%; background: var(--color-bg-card);
+      border: 2px solid var(--color-accent-blue); display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 1.5rem; color: var(--color-accent-blue); box-shadow: 0 0 20px rgba(0,200,255,0.2);
+    }
+    .step-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .step-desc { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.8; }
+    
+    /* =====================================================
+       CTA / Button Styles
+    ===================================================== */
+    #cta { background: var(--color-bg-surface); text-align: center; padding-bottom: 120px; }
+    .cta-box {
+      background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 20px;
+      padding: 48px 28px; max-width: 520px; margin: 0 auto; position: relative; overflow: hidden;
+    }
+    .cta-box-title { font-size: clamp(1.3rem, 5vw, 2rem); font-weight: 900; line-height: 1.3; margin-bottom: 16px; }
+    .cta-note { margin-top: 16px; font-size: 0.75rem; color: var(--color-text-secondary); }
+
+    .btn-cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--color-cta-btn); color: var(--color-cta-btn-text); font-family: var(--font-body);
+      font-weight: 900; font-size: clamp(0.95rem, 4vw, 1.1rem); letter-spacing: 0.05em;
+      padding: 16px 36px; border-radius: 50px; border: none; cursor: pointer; width: 100%; max-width: 460px;
+      box-shadow: 0 4px 24px rgba(0,200,255,0.35), 0 2px 8px rgba(0,0,0,0.4);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast); text-decoration: none;
+    }
+    .btn-cta:not(:disabled):hover {
+      transform: scale(1.03); box-shadow: 0 6px 32px rgba(0,200,255,0.5), 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .btn-cta:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    #floating-cta {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; padding: 12px 20px 20px;
+      background: linear-gradient(to top, rgba(10,10,15,0.98) 60%, transparent); display: flex; justify-content: center;
+      transition: transform 0.4s ease; transform: translateY(150%);
+    }
+    #floating-cta.visible { transform: translateY(0); }
+
+    /* =====================================================
+       フッター
+    ===================================================== */
+    footer { background: var(--color-bg-primary); border-top: 1px solid var(--color-border); padding: 32px 20px; text-align: center; }
+    .footer-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.08em; color: var(--color-accent-blue); margin-bottom: 8px; }
+    .footer-note { font-size: 0.72rem; color: var(--color-text-secondary); line-height: 1.8; }
+
+    /* =====================================================
+       レスポンシブ
+    ===================================================== */
+    @media (min-width: 600px) {
+      .features-grid, .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps::before { left: 31px; }
+      .step-num { width: 62px; height: 62px; font-size: 1.7rem; }
+    }
+    @media (min-width: 960px) {
+      section { padding: 96px 40px; }
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       割引バナー
+  ===================================================== -->
+  <div id="discount-banner">
+    <span class="banner-icon">🔥</span>
+    <span id="banner-text">【TempMachi限定】LINEお友だちだけの特別限定価格！</span>
+  </div>
+
+  <nav id="nav">
+    <img src="エアフライロゴ2024 .png" alt="AirFly Logo" class="nav-logo-img" />
+    <span class="nav-badge">🔒 TempMachi会員限定</span>
+  </nav>
+
+  <!-- =====================================================
+       1. ファーストビュー #hero
+  ===================================================== -->
+  <section id="hero">
+    <div class="hero-content fade-in-up">
+      <span class="hero-eyebrow">TempMachi × AirFly Secret Sale</span>
+      <h1 class="hero-title">
+        Beyond
+        <span>the Limit</span>
+      </h1>
+      <p class="hero-subtitle">「限界」の先へ。世界が変わる視界で。</p>
+      <a href="#order-form" class="btn-cta" style="display:inline-flex; max-width:340px; margin: 0 auto;">
+        今すぐ注文リクエストへ
+        <span class="btn-cta-arrow">↓</span>
+      </a>
+      <p class="hero-line-note">※ このページはTempMachi LINE登録者限定のシークレットページです</p>
+    </div>
+    <div class="hero-stripe" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 L1440,0 L1440,60 Z" fill="#0a0a0f"/>
+      </svg>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+      <span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       2. AirFlyの魅力 #features
+  ===================================================== -->
+  <section id="features">
+    <div class="inner">
+      <span class="section-label fade-in-up">Why AirFly?</span>
+      <h2 class="section-title fade-in-up">世界初。<br>鼻パッドのない<br>スポーツサングラス。</h2>
+      <div class="divider fade-in-up"></div>
+      <p class="section-desc fade-in-up">
+        従来のサングラスが持つすべての「不満」を解消するために生まれた、
+        ZYGOSPECのフラッグシップモデル。スポーツの常識を覆す革命的な設計。
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card fade-in-up">
+          <span class="feature-icon">💧</span>
+          <h3 class="feature-title">汗でズレない</h3>
+          <p class="feature-desc">鼻パッドがないため、汗をかいてもレンズが下がらない。激しい運動中もベストな視界を維持。</p>
+        </div>
+        <div class="feature-card fade-in-up">
+          <span class="feature-icon">👃</span>
+          <h3 class="feature-title">鼻に跡がつかない</h3>
+          <p class="feature-desc">鼻パッドから解放されるので、長時間着用しても鼻への圧迫・跡がつかない快適なフィット感。</p>
+        </div>
+        <div class="feature-card fade-in-up">
+          <span class="feature-icon">🌐</span>
+          <h3 class="feature-title">視界が広い</h3>
+          <p class="feature-desc">フレームを極限まで排除したデザインで、上下左右の視野が劇的に拡大。プレーの判断力が上がる。</p>
+        </div>
+        <div class="feature-card fade-in-up">
+          <span class="feature-icon">💄</span>
+          <h3 class="feature-title">化粧が落ちにくい</h3>
+          <p class="feature-desc">鼻パッドがないため、ファンデーションが剥げたり鼻に跡が残る心配がありません。女性に嬉しい設計。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       3. 人気モデル #products
+  ===================================================== -->
+  <section id="products">
+    <div class="inner">
+      <span class="section-label fade-in-up">LINEUP</span>
+      <h2 class="section-title fade-in-up">人気モデル</h2>
+      <div class="divider fade-in-up"></div>
+      <p class="section-desc fade-in-up">限定特別価格でご提供中。数量限定のため、お早めに。</p>
+      
+      <div class="products-grid" id="products-grid">
+        <!-- JSで展開 -->
+      </div>
+      
+      <div style="text-align:center;" class="fade-in-up">
+        <a href="https://netshop.zygospec.com/" target="_blank" rel="noopener noreferrer" class="btn-outline">
+          その他のモデルは公式サイトでチェック
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       4. 注文シミュレーション #order-form ★更新
+  ===================================================== -->
+  <section id="order-form">
+    <div class="inner">
+      <span class="section-label fade-in-up">ORDER FORM</span>
+      <h2 class="section-title fade-in-up">注文シミュレーション</h2>
+      <div class="divider fade-in-up"></div>
+      <p class="section-desc fade-in-up">
+        ご希望の「モデル」と「レンズ」を選択して特別割引価格をご確認ください。
+      </p>
+
+      <div class="order-box fade-in-up">
+        
+        <div class="order-note-text" style="margin-top: 0; margin-bottom: 32px;">
+          <strong>※ ここで出てこない商品（モデル・レンズなど）を注文したい場合は、Googleフォームのフリー記述でご記載ください。</strong>
+        </div>
+
+        <!-- モデル選択 -->
+        <div class="order-form-group">
+          <label for="select-model">1. モデルを選択</label>
+          <select id="select-model" class="order-select">
+            <option value="" disabled selected>モデルを選択してください</option>
+            <option value="AF-301">AF-301</option>
+            <option value="AF-301-BK">AF-301-BK</option>
+            <option value="AF-301-WV">AF-301-WV</option>
+            <option value="AF-302-WP">AF-302-WP</option>
+            <option value="AF-302-SP">AF-302-SP</option>
+            <option value="AF-901">AF-901</option>
+          </select>
+        </div>
+
+        <!-- レンズ選択 -->
+        <div class="order-form-group">
+          <label for="select-lens">2. レンズを選択</label>
+          <select id="select-lens" class="order-select" disabled>
+            <option value="" disabled selected>先にモデルを選択してください</option>
+          </select>
+        </div>
+
+        <!-- 価格計算結果 -->
+        <div class="order-price-result" id="order-price-result" style="display: none;">
+          <span class="price-label">定価参考</span>
+          <span class="price-original" id="sim-price-original">¥0（税込）</span>
+          <span class="price-label">TempMachi 特別限定価格</span>
+          <div class="price-sale-row" style="justify-content: center; margin-top:8px;">
+            <span class="price-sale" id="sim-price-sale">¥0</span>
+            <span class="price-sale-unit">（税込）</span>
+          </div>
+          <p style="font-size:0.75rem; color:var(--color-text-secondary); margin-top:24px; line-height:1.6;">
+            ※ 公式サイトの価格改定等に伴い、本特別価格は予告なく変更される場合があります。<br>
+            ※ 郵送での受け取りをご希望の場合は、別途送料が500円かかります。
+          </p>
+        </div>
+
+        <!-- 送信ボタン -->
+        <div class="order-submit-btn-wrap">
+          <button id="submit-order-button" class="btn-cta" disabled>
+            Googleフォームへ進んで注文する
+            <span class="btn-cta-arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       5. ご注文の流れ #how-to-order
+  ===================================================== -->
+  <section id="how-to-order">
+    <div class="inner">
+      <span class="section-label fade-in-up">HOW TO ORDER</span>
+      <h2 class="section-title fade-in-up">ご注文の流れ</h2>
+      <div class="divider fade-in-up"></div>
+      <div class="steps">
+        <div class="step fade-in-up">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3 class="step-title">モデル・レンズを決める</h3>
+            <p class="step-desc">上の「注文シミュレーション」でご希望の製品構成と価格をお確かめください。</p>
+          </div>
+        </div>
+        <div class="step fade-in-up">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3 class="step-title">Googleフォームから注文リクエストを送信</h3>
+            <p class="step-desc">「Googleフォームへ進んで注文する」ボタンを押すと専用フォームが開きます。シミュレーションで決めた構成（フレーム色含む）等を入力して送信してください。</p>
+          </div>
+        </div>
+        <div class="step fade-in-up">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3 class="step-title">LINEに届く決済案内でお支払い</h3>
+            <p class="step-desc">TempMachiのLINE公式アカウントより特別割引を適用した決済案内が届きます。案内に従ってお支払いください。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       6. CTA & フッター
+  ===================================================== -->
+  <section id="cta">
+    <div class="inner">
+      <div class="cta-box fade-in-up">
+        <h2 class="cta-box-title" style="font-size: clamp(1.2rem, 4vw, 1.6rem);">このページはTempMachi LINE登録者限定のシークレットページです。</h2>
+        <p class="cta-note" style="margin-top:24px;">
+          ※ 在庫状況によっては対応できない場合があります。<br>
+          ※ 公式サイトの販売価格が上昇した場合、それに伴い予告なく当ページの特別価格も引き上げる場合がございます。あらかじめご了承ください。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-logo">AirFly × TempMachi</p>
+    <p class="footer-note">販売元：TempMachi | 提供品：ZYGOSPEC AirFly<br>© 2026 TempMachi. このページはLINE会員限定ページです。</p>
+  </footer>
+
+  <div id="floating-cta">
+    <a href="#order-form" class="btn-cta" id="floating-cta-btn">
+      🛒 シミュレーターで料金をチェック
+      <span class="btn-cta-arrow">↑</span>
+    </a>
+  </div>
+
+  <!-- =====================================================
+       JavaScript
+  ===================================================== -->
+  <script>
+    /* ==============================================
+       1. 商品・レンズデータ定義
+    ============================================== */
+    // 人気モデル（テキスト表示用）
+    const PRODUCTS = [
+      { code: 'AF-301', desc: 'エアフライの代名詞的モデル。', origPrice: '22,000円〜', salePrice: '18,000円〜' },
+      { code: 'AF-301-BK', desc: '上下左右に幅広いレンズでどんな姿勢でもストレスフリーな視野をもたらすBKシリーズ。', origPrice: '22,000円', salePrice: '18,000円' },
+      { code: 'AF-301-WV', desc: '横方向にワイドな偏光レンズを組み込んだWVシリーズ。', origPrice: '26,400円', salePrice: '22,000円' },
+      { code: 'AF-302-WP', desc: '主に女性向けに開発されたWPシリーズ。女性に似合う上下左右に大きいレンズシェイプで広い視野をもたらす。', origPrice: '22,000円〜', salePrice: '18,000円〜' },
+      { code: 'AF-302-SP', desc: '女性がかけやすいスポーティなSPシリーズ。またキッズモデル［AF-901］ではやや小ぶりと感じるお子さんにも次のサイズとして最適。', origPrice: '22,000円〜', salePrice: '18,000円〜' },
+      { code: 'AF-901', desc: '小学生以下におすすめのキッズモデル。', origPrice: '16,500円', salePrice: '15,000円' }
+    ];
+
+    const LENS_OPTIONS = {
+      'AF-301': ['グレー★偏光', 'ライトスモーク', 'ゴールド', 'ブルーピンク', 'ブルー'],
+      'AF-301-BK': ['ブルー★偏光', 'ゴールド★偏光', 'ブルー', 'ゴールド', 'ブルーピンク'],
+      'AF-301-WV': ['ブルー★偏光', 'ゴールド★偏光', 'グレー★偏光'],
+      'AF-302-WP': ['ブルー★偏光', 'ブルーピンク★偏光', 'グレー★偏光', 'ハイコントラストローズ'],
+      'AF-302-SP': ['グレー★偏光', 'ハイコントラストローズ★偏光', 'ライトスモーク', 'ゴールド', 'ブルー', 'ライトピンク', 'ブルーピンク'],
+      'AF-901': ['ゴールド', 'ライトスモーク', 'ブルー', 'スモーク']
+    };
+
+    const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeeDvsQ9k-AqJ6x_UDqSOxVRlSTxLSskrqUc2DHyXv-R-6iqQ/viewform";
+
+    function formatPrice(num) { return num.toLocaleString('ja-JP'); }
+
+    /* ==============================================
+       2. 商品一覧 (写真なしカード版)
+    ============================================== */
+    function buildProductCards() {
+      const grid = document.getElementById('products-grid');
+      grid.innerHTML = '';
+
+      PRODUCTS.forEach(function(p, i) {
+        const card = document.createElement('div');
+        card.className = 'product-text-card fade-in-up';
+        card.style.transitionDelay = (i * 0.08) + 's';
+        card.innerHTML = `
+          <div>
+            <div class="product-text-code">${p.code}</div>
+            <div class="product-text-desc">${p.desc}</div>
+          </div>
+          <div class="product-text-price-block">
+            <span class="price-label">定価参考</span>
+            <span class="price-original">¥${p.origPrice}（税込）</span>
+            <span class="price-label">TempMachi 特別割引</span>
+            <div class="price-sale-row">
+              <span class="price-sale">¥${p.salePrice}</span><span class="price-sale-unit">（税込）</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    /* ==============================================
+       3. 注文シミュレーターの動作 (フレーム・その他廃止版)
+    ============================================== */
+    function initOrderSimulator() {
+      const selectModel = document.getElementById('select-model');
+      const selectLens = document.getElementById('select-lens');
+      
+      const submitBtn = document.getElementById('submit-order-button');
+      const resultArea = document.getElementById('order-price-result');
+      const elOriginal = document.getElementById('sim-price-original');
+      const elSale = document.getElementById('sim-price-sale');
+
+      // 価格計算ロジック
+      function getPriceData(model, lens) {
+        if (model === 'AF-901') {
+          return { orig: 16500, sale: 15000 };
+        } else {
+          if (lens && lens.includes('★偏光')) {
+             return { orig: 26400, sale: 22000 };
+          } else {
+             return { orig: 22000, sale: 18000 };
+          }
+        }
+      }
+
+      function checkSimulationComplete() {
+        const m = selectModel.value;
+        const l = selectLens.value;
+
+        if (m && l) {
+          const priceInfo = getPriceData(m, l);
+          elOriginal.textContent = `¥${formatPrice(priceInfo.orig)}（税込）`;
+          elSale.textContent = `¥${formatPrice(priceInfo.sale)}`;
+          
+          resultArea.style.display = 'block';
+          submitBtn.disabled = false;
+          resultArea.style.animation = 'none';
+          resultArea.offsetHeight; 
+          resultArea.style.animation = 'bannerPulse 0.6s ease-out 1';
+        }
+      }
+
+      // モデル選択
+      selectModel.addEventListener('change', function(e) {
+        const val = e.target.value;
+        
+        selectLens.innerHTML = '<option value="" disabled selected>レンズを選択してください</option>';
+        if (LENS_OPTIONS[val]) {
+          LENS_OPTIONS[val].forEach(txt => {
+            const opt = document.createElement('option');
+            opt.value = txt; opt.textContent = txt;
+            selectLens.appendChild(opt);
+          });
+          selectLens.disabled = false;
+        }
+        
+        submitBtn.disabled = true;
+        resultArea.style.display = 'none';
+      });
+
+      // レンズ選択
+      selectLens.addEventListener('change', function(e) {
+        checkSimulationComplete();
+      });
+
+      // Googleフォームへの遷移（Pre-fill連動）
+      submitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const m = selectModel.value;
+        const l = selectLens.value;
+        
+        let url = GOOGLE_FORM_URL + "?usp=pp_url";
+        
+        // 1. モデルの自動選択
+        if (m) {
+          url += `&entry.967112212=${encodeURIComponent(m)}`;
+        }
+        
+        // 2. レンズの自動選択
+        const lensEntryIds = {
+          'AF-301': 'entry.961879086',
+          'AF-301-BK': 'entry.2103453250',
+          'AF-301-WV': 'entry.1534283781',
+          'AF-302-WP': 'entry.895899326',
+          'AF-302-SP': 'entry.825072829',
+          'AF-901': 'entry.271663231'
+        };
+        const entryId = lensEntryIds[m];
+        
+        if (entryId && l) {
+          // Googleフォーム側の選択肢テキスト（長文）との厳密マッピング
+          let exactText = l;
+
+          if (m === 'AF-301') {
+            if (l === 'ブルーピンク') exactText = 'ブルーピンク【定価22,000円→18,000円】';
+            else if (l === 'ライトスモーク') exactText = 'ライトスモーク【定価22,000円→18,000円】';
+            else if (l === 'ゴールド') exactText = 'ゴールド【定価22,000円→18,000円】';
+            else if (l === 'ブルー') exactText = 'ブルー【定価22,000円→18,000円】';
+            else if (l === 'グレー★偏光') exactText = 'グレー★偏光 【定価26,400円→22,000円】';
+          } else if (m === 'AF-301-BK') {
+            if (l === 'ブルー★偏光') exactText = 'ブルー★偏光 【定価26,400円→22,000円】';
+            else if (l === 'ゴールド★偏光') exactText = 'ゴールド★偏光 【定価26,400円→22,000円】';
+            else if (l === 'ブルーピンク') exactText = 'ブルーピンク【定価22,000円→18,000円】';
+            else if (l === 'ゴールド') exactText = 'ゴールド【定価22,000円→18,000円】';
+            else if (l === 'ブルー') exactText = 'ブルー【定価22,000円→18,000円】';
+          } else if (m === 'AF-301-WV') {
+            if (l === 'ブルー★偏光') exactText = 'ブルー（10％）★偏光 【定価26,400円→22,000円】';
+            else if (l === 'ゴールド★偏光') exactText = 'ゴールド（20％）★偏光 【定価26,400円→22,000円】';
+            else if (l === 'グレー★偏光') exactText = 'グレー（30％）★偏光 【定価26,400円→22,000円】';
+          } else if (m === 'AF-302-WP') {
+            if (l === 'ブルー★偏光') exactText = 'ブルー★偏光 【定価26,400円→22,000円】';
+            else if (l === 'ブルーピンク★偏光') exactText = 'ブルーピンク★偏光 【定価26,400円→22,000円】';
+            else if (l === 'グレー★偏光') exactText = 'グレー★偏光 【定価26,400円→22,000円】';
+            else if (l === 'ハイコントラストローズ') exactText = 'ハイコントラストローズ【定価22,000円→18,000円】';
+          } else if (m === 'AF-302-SP') {
+            if (l === 'グレー★偏光') exactText = 'グレー★偏光 【定価26,400円→22,000円】';
+            else if (l === 'ハイコントラストローズ★偏光') exactText = 'ハイコントラストローズ★偏光 【定価26,400円→22,000円】';
+            else if (l === 'ライトスモーク') exactText = 'ライトスモーク【定価22,000円→18,000円】';
+            else if (l === 'ゴールド') exactText = 'ゴールド【定価22,000円→18,000円】';
+            else if (l === 'ブルー') exactText = 'ブルー【定価22,000円→18,000円】';
+            else if (l === 'ライトピンク') exactText = 'ライトピンク【定価22,000円→18,000円】';
+            else if (l === 'ブルーピンク') exactText = 'ブルーピンク【定価22,000円→18,000円】';
+          } else if (m === 'AF-901') {
+            if (l === 'ゴールド') exactText = 'ゴールド【定価16,500円→15,000円】';
+            else if (l === 'ライトスモーク') exactText = 'ライトスモーク【定価16,500円→15,000円】';
+            else if (l === 'ブルー') exactText = 'ブルー【定価16,500円→15,000円】';
+            else if (l === 'スモーク') exactText = 'スモーク【定価16,500円→15,000円】';
+          }
+
+          url += `&${entryId}=${encodeURIComponent(exactText)}`;
+        }
+        
+        window.open(url, '_blank');
+      });
+    }
+
+    /* ==============================================
+       4. スクロールアニメーション等初期化
+    ============================================== */
+    function initScrollAnimation() {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+      const hero = document.getElementById('hero');
+      const floatingCta = document.getElementById('floating-cta');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > (hero ? hero.offsetHeight * 0.8 : 500)) {
+          floatingCta.classList.add('visible');
+        } else {
+          floatingCta.classList.remove('visible');
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      buildProductCards();
+      initOrderSimulator();
+      setTimeout(initScrollAnimation, 50);
+    });
+
+  </script>
+</body>
+</html>

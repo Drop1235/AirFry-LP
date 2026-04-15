@@ -634,7 +634,7 @@
         <div class="order-form-group">
           <label for="select-model">1. モデルを選択</label>
           <select id="select-model" class="order-select">
-            <option value="" disabled selected>モデルを選択してください</option>
+            <option value="" selected>モデルを選択してください</option>
             <option value="AF-301">AF-301</option>
             <option value="AF-301-BK">AF-301-BK</option>
             <option value="AF-301-WV">AF-301-WV</option>
@@ -669,8 +669,8 @@
 
         <!-- 送信ボタン -->
         <div class="order-submit-btn-wrap">
-          <button id="submit-order-button" class="btn-cta" disabled>
-            Googleフォームへ進んで注文する
+          <button id="submit-order-button" class="btn-cta">
+            注文に進む
             <span class="btn-cta-arrow">→</span>
           </button>
         </div>
@@ -833,7 +833,6 @@
           elSale.textContent = `¥${formatPrice(priceInfo.sale)}`;
           
           resultArea.style.display = 'block';
-          submitBtn.disabled = false;
           resultArea.style.animation = 'none';
           resultArea.offsetHeight; 
           resultArea.style.animation = 'bannerPulse 0.6s ease-out 1';
@@ -854,7 +853,6 @@
           selectLens.disabled = false;
         }
         
-        submitBtn.disabled = true;
         resultArea.style.display = 'none';
       });
 

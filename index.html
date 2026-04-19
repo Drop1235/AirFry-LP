@@ -50,6 +50,143 @@
     a { color: inherit; text-decoration: none; }
 
     /* =====================================================
+       ゲート機能 (LINE / メール登録) のスタイル
+    ===================================================== */
+    #gate-container {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--color-bg-surface);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .gate-card {
+      background: var(--color-bg-card);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      max-width: 480px;
+      width: 100%;
+      padding: 40px 24px;
+      text-align: center;
+      border: 1px solid var(--color-border);
+    }
+    .gate-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 24px;
+    }
+    .gate-subtitle {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-accent-blue);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .btn-line {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #06C755;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 16px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+    .btn-line:hover {
+      background: #05b04b;
+      transform: translateY(-2px);
+    }
+    .btn-email-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-accent-blue);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 16px 24px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+      transition: all var(--transition-fast);
+      margin-top: 24px;
+    }
+    .btn-email-submit:disabled {
+      background: #a0aec0;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-email-submit:not(:disabled):hover {
+      background: #0066cc;
+      transform: translateY(-2px);
+    }
+    .gate-input-group {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .gate-input-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .gate-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .gate-input:focus {
+      outline: none;
+      border-color: var(--color-accent-blue);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+    }
+    .gate-terms-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      text-align: left;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .gate-checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      text-align: left;
+    }
+    .gate-checkbox {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-accent-blue);
+      cursor: pointer;
+    }
+    .gate-checkbox-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* =====================================================
        スクロールフェードインアニメーション
     ===================================================== */
     .fade-in-up {
@@ -233,7 +370,7 @@
     }
 
     /* =====================================================
-       #uv-marketing セクション（新規）
+       #uv-marketing セクション
     ===================================================== */
     #uv-marketing { background: var(--color-bg-card); text-align: center; }
     
@@ -273,7 +410,7 @@
     .feature-desc { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.75; }
 
     /* =====================================================
-       #official-gallery セクション（新規）
+       #official-gallery セクション
     ===================================================== */
     #official-gallery { background: var(--color-bg-primary); text-align: center; }
     .gallery-box {
@@ -420,196 +557,274 @@
 <body>
 
   <!-- =====================================================
-       割引バナー
+       ゲート機能 (ステップ1・ステップ2)
   ===================================================== -->
-  <div id="discount-banner">
-    <span class="banner-icon">🔥</span>
-    <span id="banner-text">【TempMachi限定】LINEお友だちだけの特別シークレットセール</span>
+  <div id="gate-container">
+    
+    <!-- ステップ1：LINEログイン画面 -->
+    <div id="step1-login" class="gate-card">
+      <h2 class="gate-title">AirFry公式アカウント<br>友だち限定サービス</h2>
+      <button type="button" class="btn-line" onclick="goToStep2()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+          <path d="M21.928 11.607c0-4.975-5.06-9.018-11.272-9.018-6.216 0-11.276 4.043-11.276 9.018 0 4.475 4.086 8.288 9.616 8.91.373.08.882.25 1.012.568.117.288.076.738.034 1.026l-.317 1.954c-.097.58-.553 2.684 2.348 1.472 2.905-1.214 7.9-4.662 9.423-6.93.308-.475-.02-1.02-.02-1.02 0-.003.452-.28.452-5.98zm-14.863 1.854h-2.15v-4.103c0-.317.257-.574.575-.574.317 0 .574.257.574.574v2.955h1.002c.317 0 .574.257.574.574s-.257.574-.575.574zm3.17-2.955v2.38c0 .317-.257.574-.575.574s-.574-.257-.574-.574v-4.103c0-.317.257-.574.575-.574s.574.257.574.574v1.148zm4.332-1.148l-1.398 2.064v1.464c0 .317-.257.574-.575.574-.317 0-.574-.257-.574-.574v-4.103c0-.317.257-.574.575-.574.19 0 .363.092.468.243l1.247 1.84.002-.002v-1.507c0-.317.257-.574.575-.574.317 0 .574.257.574.574v4.103c0 .317-.257.574-.574.574-.19 0-.362-.093-.467-.243l-1.425-2.102v-.004zm2.146.43h1.002c.317 0 .574.257.574.574s-.257.574-.574.574h-1.002v1.23h1.002c.317 0 .574.257.574.574s-.257.574-.575.574h-1.577c-.317 0-.575-.257-.575-.574v-4.103c0-.317.258-.574.575-.574h1.577c.317 0 .574.257.574.574s-.257.574-.574.574h-1.002v1.15z"/>
+        </svg>
+        LINEでログイン
+      </button>
+    </div>
+
+    <!-- ステップ2：メールアドレス登録画面 (初期非表示) -->
+    <div id="step2-email" class="gate-card" style="display: none;">
+      <h2 class="gate-subtitle">メールアドレスをご登録いただくと、AirFryを【限定特別価格】でご購入いただけます！</h2>
+      
+      <form id="gate-email-form" onsubmit="submitEmail(event)">
+        <div class="gate-input-group">
+          <label for="user-email">メールアドレス</label>
+          <input type="email" id="user-email" class="gate-input" placeholder="例: sample@example.com" required>
+        </div>
+
+        <div class="gate-terms-box">
+          ご登録いただいたメールアドレス宛に、AirFryの限定価格でのご案内やシークレットセールの情報をお送りします。また、弊社が提供・取り扱う各種サービスや商品に関する特別なお知らせも合わせてお届けいたします。
+        </div>
+
+        <div class="gate-checkbox-group">
+          <input type="checkbox" id="agree-check" class="gate-checkbox" onchange="toggleSubmitButton()">
+          <label for="agree-check" class="gate-checkbox-label">同意して特別価格で購入する</label>
+        </div>
+
+        <button type="submit" id="btn-email-submit" class="btn-email-submit" disabled>
+          同意して特別価格で購入する
+        </button>
+      </form>
+    </div>
+
   </div>
 
-  <nav id="nav">
-    <img src="エアフライロゴ2024 .png" alt="AirFly Logo" class="nav-logo-img" />
-    <span class="nav-badge">✓ TempMachi会員限定</span>
-  </nav>
-
   <!-- =====================================================
-       1. ファーストビュー #hero
+       ステップ3：メインコンテンツ (初期非表示)
   ===================================================== -->
-  <section id="hero">
-    <div class="hero-content fade-in-up">
-      <span class="hero-eyebrow">TempMachi × AirFly セール</span>
-      <h1 class="hero-title">
-        Beyond
-        <span>the Limit</span>
-      </h1>
-      <p class="hero-subtitle">「限界」の先へ。<br>ストレスフリーな視界で最高のパフォーマンスを。</p>
-      <a href="#order-form" class="btn-cta" style="display:inline-flex; max-width:340px; margin: 0 auto;">
-        注文シミュレーターへ
-        <span>↓</span>
-      </a>
-      <p class="hero-line-note">※ このページはTempMachi LINE登録者限定の特別ページです</p>
-    </div>
-    <div class="scroll-indicator" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
-      <span>SCROLL</span>
-    </div>
-  </section>
+  <div id="main-content" style="display: none;">
 
-  <!-- =====================================================
-       2. マーケティングセクション（UV対策）
-  ===================================================== -->
-  <section id="uv-marketing">
-    <div class="inner">
-      <span class="section-label fade-in-up">Healthcare</span>
-      <h2 class="section-title fade-in-up">一生に浴びる紫外線の約8割は、<br>18歳までに集中しています。</h2>
-      <div class="divider fade-in-up" style="margin-left: auto; margin-right: auto;"></div>
-      <p class="section-desc fade-in-up" style="max-width: 680px; margin: 0 auto; text-align: left;">
-        日常的な紫外線ダメージは、気づかないうちに眼に蓄積され、将来的な白内障などの眼病リスクを高めます。特に屋外での活動が多いスポーツマンにとって、眼の紫外線対策はパフォーマンス維持だけでなく、一生の健康を守るための「必須の習慣」です。<br><br>
-        だからこそ、激しい運動中でもズレずにストレスなく装着し続けられる<strong>「AirFly」</strong>による対策が、確実な解決策となります。
-      </p>
+    <div id="discount-banner">
+      <span class="banner-icon">🔥</span>
+      <span id="banner-text">【TempMachi限定】LINEお友だちだけの特別シークレットセール</span>
     </div>
-  </section>
 
-  <!-- =====================================================
-       3. AirFlyの魅力 #features
-  ===================================================== -->
-  <section id="features">
-    <div class="inner">
-      <span class="section-label fade-in-up">Why AirFly?</span>
-      <h2 class="section-title fade-in-up">世界初。<br>鼻パッドのないスポーツサングラス。</h2>
-      <div class="divider fade-in-up"></div>
-      <p class="section-desc fade-in-up">
-        従来のサングラスが持つ「不満」を解消するために生まれたフラッグシップモデル。スポーツの常識を覆す革命的な設計です。
-      </p>
+    <nav id="nav">
+      <img src="エアフライロゴ2024 .png" alt="AirFly Logo" class="nav-logo-img" />
+      <span class="nav-badge">✓ TempMachi会員限定</span>
+    </nav>
 
-      <div class="features-grid">
-        <div class="feature-card fade-in-up">
-          <span class="feature-icon">💧</span>
-          <h3 class="feature-title">汗でズレない</h3>
-          <p class="feature-desc">鼻パッドがないため、汗をかいてもレンズが下がりません。激しい運動中もベストな視界を維持。</p>
-        </div>
-        <div class="feature-card fade-in-up">
-          <span class="feature-icon">👃</span>
-          <h3 class="feature-title">鼻に跡がつかない</h3>
-          <p class="feature-desc">鼻への圧迫から解放され、長時間着用しても跡がつかない快適なフィット感を実現。</p>
-        </div>
-        <div class="feature-card fade-in-up">
-          <span class="feature-icon">🌐</span>
-          <h3 class="feature-title">視界が広い</h3>
-          <p class="feature-desc">フレームを極限まで排除したデザインで、上下左右の視野が拡大。プレーの判断力が向上。</p>
-        </div>
-        <div class="feature-card fade-in-up">
-          <span class="feature-icon">💄</span>
-          <h3 class="feature-title">化粧が落ちにくい</h3>
-          <p class="feature-desc">鼻パッドがないため、ファンデーションが剥げたり鼻に跡が残る心配がありません。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =====================================================
-       4. 公式サイト誘導セクション #official-gallery
-  ===================================================== -->
-  <section id="official-gallery">
-    <div class="inner">
-      <div class="gallery-box fade-in-up">
-        <span class="section-label" style="justify-content:center; display:flex;">Design Gallery</span>
-        <h2 class="section-title">デザインの確認は公式サイトへ</h2>
-        <p class="section-desc" style="margin-bottom: 24px;">
-          本ページでは画像著作権に配慮し、商品モデルの画像を直接掲載しておりません。<br>
-          各モデルの詳細なデザインやカラー展開については、AirFly公式のギャラリーページにてご確認をお願いいたします。
-        </p>
-        <a href="https://netshop.zygospec.com/" target="_blank" rel="noopener noreferrer" class="btn-cta btn-dark">
-          公式サイトでデザインを確認する
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    <!-- ファーストビュー #hero -->
+    <section id="hero">
+      <div class="hero-content fade-in-up">
+        <span class="hero-eyebrow">TempMachi × AirFly セール</span>
+        <h1 class="hero-title">
+          Beyond
+          <span>the Limit</span>
+        </h1>
+        <p class="hero-subtitle">「限界」の先へ。<br>ストレスフリーな視界で最高のパフォーマンスを。</p>
+        <a href="#order-form" class="btn-cta" style="display:inline-flex; max-width:340px; margin: 0 auto;">
+          注文シミュレーターへ
+          <span>↓</span>
         </a>
+        <p class="hero-line-note">※ このページはTempMachi LINE登録者限定の特別ページです</p>
       </div>
-    </div>
-  </section>
+      <div class="scroll-indicator" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+        <span>SCROLL</span>
+      </div>
+    </section>
 
-  <!-- =====================================================
-       5. 注文シミュレーション＆フォーム #order-form
-  ===================================================== -->
-  <section id="order-form">
-    <div class="inner">
-      <span class="section-label fade-in-up">ORDER FORM</span>
-      <h2 class="section-title fade-in-up">料金確認 ＆ ご注文</h2>
-      <div class="divider fade-in-up"></div>
-      <p class="section-desc fade-in-up">
-        ご希望のモデルとレンズを選択して特別価格をご確認いただいた後、下部のGoogleフォームよりご注文ください。
-      </p>
+    <!-- マーケティングセクション（UV対策） -->
+    <section id="uv-marketing">
+      <div class="inner">
+        <span class="section-label fade-in-up">Healthcare</span>
+        <h2 class="section-title fade-in-up">一生に浴びる紫外線の約8割は、<br>18歳までに集中しています。</h2>
+        <div class="divider fade-in-up" style="margin-left: auto; margin-right: auto;"></div>
+        <p class="section-desc fade-in-up" style="max-width: 680px; margin: 0 auto; text-align: left;">
+          日常的な紫外線ダメージは、気づかないうちに眼に蓄積され、将来的な白内障などの眼病リスクを高めます。特に屋外での活動が多いスポーツマンにとって、眼の紫外線対策はパフォーマンス維持だけでなく、一生の健康を守るための「必須の習慣」です。<br><br>
+          だからこそ、激しい運動中でもズレずにストレスなく装着し続けられる<strong>「AirFly」</strong>による対策が、確実な解決策となります。
+        </p>
+      </div>
+    </section>
 
-      <div class="order-box fade-in-up">
-        <p class="section-desc" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--color-text-primary); font-weight: 700;">
-          ※ ここに表示されない商品をご希望の場合は、フォーム最下部の「フリー記述」にてご記載ください。
+    <!-- AirFlyの魅力 #features -->
+    <section id="features">
+      <div class="inner">
+        <span class="section-label fade-in-up">Why AirFly?</span>
+        <h2 class="section-title fade-in-up">世界初。<br>鼻パッドのないスポーツサングラス。</h2>
+        <div class="divider fade-in-up"></div>
+        <p class="section-desc fade-in-up">
+          従来のサングラスが持つ「不満」を解消するために生まれたフラッグシップモデル。スポーツの常識を覆す革命的な設計です。
         </p>
 
-        <!-- モデル選択 -->
-        <div class="order-form-group">
-          <label for="select-model">1. モデルを選択</label>
-          <select id="select-model" class="order-select">
-            <option value="" selected>モデルを選択してください</option>
-            <option value="AF-301">AF-301</option>
-            <option value="AF-301-BK">AF-301-BK</option>
-            <option value="AF-301-WV">AF-301-WV</option>
-            <option value="AF-302-WP">AF-302-WP</option>
-            <option value="AF-302-SP">AF-302-SP</option>
-            <option value="AF-901">AF-901</option>
-          </select>
-        </div>
-
-        <!-- レンズ選択 -->
-        <div class="order-form-group">
-          <label for="select-lens">2. レンズを選択</label>
-          <select id="select-lens" class="order-select" disabled>
-            <option value="" disabled selected>先にモデルを選択してください</option>
-          </select>
-        </div>
-
-        <!-- 価格計算結果 -->
-        <div class="order-price-result" id="order-price-result" style="display: none;">
-          <span class="price-label">定価参考</span>
-          <span class="price-original" id="sim-price-original">¥0（税込）</span>
-          <span class="price-label">TempMachi 特別限定価格</span>
-          <div class="price-sale-row">
-            <span class="price-sale" id="sim-price-sale">¥0</span>
-            <span class="price-sale-unit">（税込）</span>
+        <div class="features-grid">
+          <div class="feature-card fade-in-up">
+            <span class="feature-icon">💧</span>
+            <h3 class="feature-title">汗でズレない</h3>
+            <p class="feature-desc">鼻パッドがないため、汗をかいてもレンズが下がりません。激しい運動中もベストな視界を維持。</p>
+          </div>
+          <div class="feature-card fade-in-up">
+            <span class="feature-icon">👃</span>
+            <h3 class="feature-title">鼻に跡がつかない</h3>
+            <p class="feature-desc">鼻への圧迫から解放され、長時間着用しても跡がつかない快適なフィット感を実現。</p>
+          </div>
+          <div class="feature-card fade-in-up">
+            <span class="feature-icon">🌐</span>
+            <h3 class="feature-title">視界が広い</h3>
+            <p class="feature-desc">フレームを極限まで排除したデザインで、上下左右の視野が拡大。プレーの判断力が向上。</p>
+          </div>
+          <div class="feature-card fade-in-up">
+            <span class="feature-icon">💄</span>
+            <h3 class="feature-title">化粧が落ちにくい</h3>
+            <p class="feature-desc">鼻パッドがないため、ファンデーションが剥げたり鼻に跡が残る心配がありません。</p>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Googleフォーム iframe埋め込み -->
-      <div class="form-iframe-wrapper fade-in-up">
-        <!-- 既存のフォームリンクに embedded=true を付与してiframe化。真っ白な背景となじむようにスタイリング -->
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeeDvsQ9k-AqJ6x_UDqSOxVRlSTxLSskrqUc2DHyXv-R-6iqQ/viewform?embedded=true" height="1200" frameborder="0" marginheight="0" marginwidth="0">読み込み中…</iframe>
+    <!-- 公式サイト誘導セクション #official-gallery -->
+    <section id="official-gallery">
+      <div class="inner">
+        <div class="gallery-box fade-in-up">
+          <span class="section-label" style="justify-content:center; display:flex;">Design Gallery</span>
+          <h2 class="section-title">デザインの確認は公式サイトへ</h2>
+          <p class="section-desc" style="margin-bottom: 24px;">
+            本ページでは画像著作権に配慮し、商品モデルの画像を直接掲載しておりません。<br>
+            各モデルの詳細なデザインやカラー展開については、AirFly公式のギャラリーページにてご確認をお願いいたします。
+          </p>
+          <a href="https://netshop.zygospec.com/" target="_blank" rel="noopener noreferrer" class="btn-cta btn-dark">
+            公式サイトでデザインを確認する
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+        </div>
       </div>
+    </section>
+
+    <!-- 注文シミュレーション＆フォーム #order-form -->
+    <section id="order-form">
+      <div class="inner">
+        <span class="section-label fade-in-up">ORDER FORM</span>
+        <h2 class="section-title fade-in-up">料金確認 ＆ ご注文</h2>
+        <div class="divider fade-in-up"></div>
+        <p class="section-desc fade-in-up">
+          ご希望のモデルとレンズを選択して特別価格をご確認いただいた後、下部のGoogleフォームよりご注文ください。
+        </p>
+
+        <div class="order-box fade-in-up">
+          <p class="section-desc" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--color-text-primary); font-weight: 700;">
+            ※ ここに表示されない商品をご希望の場合は、フォーム最下部の「フリー記述」にてご記載ください。
+          </p>
+
+          <!-- モデル選択 -->
+          <div class="order-form-group">
+            <label for="select-model">1. モデルを選択</label>
+            <select id="select-model" class="order-select">
+              <option value="" selected>モデルを選択してください</option>
+              <option value="AF-301">AF-301</option>
+              <option value="AF-301-BK">AF-301-BK</option>
+              <option value="AF-301-WV">AF-301-WV</option>
+              <option value="AF-302-WP">AF-302-WP</option>
+              <option value="AF-302-SP">AF-302-SP</option>
+              <option value="AF-901">AF-901</option>
+            </select>
+          </div>
+
+          <!-- レンズ選択 -->
+          <div class="order-form-group">
+            <label for="select-lens">2. レンズを選択</label>
+            <select id="select-lens" class="order-select" disabled>
+              <option value="" disabled selected>先にモデルを選択してください</option>
+            </select>
+          </div>
+
+          <!-- 価格計算結果 -->
+          <div class="order-price-result" id="order-price-result" style="display: none;">
+            <span class="price-label">定価参考</span>
+            <span class="price-original" id="sim-price-original">¥0（税込）</span>
+            <span class="price-label">TempMachi 特別限定価格</span>
+            <div class="price-sale-row">
+              <span class="price-sale" id="sim-price-sale">¥0</span>
+              <span class="price-sale-unit">（税込）</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Googleフォーム iframe埋め込み -->
+        <div class="form-iframe-wrapper fade-in-up" id="iframe-wrapper">
+          <iframe id="google-form-iframe" src="" height="1200" frameborder="0" marginheight="0" marginwidth="0">読み込み中…</iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+      <p class="footer-logo">AirFly × TempMachi</p>
+      <p class="footer-note">
+        販売元：TempMachi | 提供品：ZYGOSPEC AirFly<br>
+        © 2026 TempMachi. このページはLINE会員限定ページです。
+      </p>
+    </footer>
+
+    <div id="floating-cta">
+      <a href="#order-form" class="btn-cta" id="floating-cta-btn">
+        🛒 シミュレーター・注文フォームへ
+        <span>↑</span>
+      </a>
     </div>
-  </section>
 
-  <!-- =====================================================
-       フッター
-  ===================================================== -->
-  <footer>
-    <p class="footer-logo">AirFly × TempMachi</p>
-    <p class="footer-note">
-      販売元：TempMachi | 提供品：ZYGOSPEC AirFly<br>
-      © 2026 TempMachi. このページはLINE会員限定ページです。
-    </p>
-  </footer>
-
-  <div id="floating-cta">
-    <a href="#order-form" class="btn-cta" id="floating-cta-btn">
-      🛒 シミュレーター・注文フォームへ
-      <span>↑</span>
-    </a>
-  </div>
+  </div> <!-- /#main-content -->
 
   <!-- =====================================================
        JavaScript
   ===================================================== -->
   <script>
+    /* ==============================================
+       ゲート機能 (ステップ遷移ロジック)
+    ============================================== */
+    function goToStep2() {
+      // ステップ1を隠し、ステップ2を表示
+      document.getElementById('step1-login').style.display = 'none';
+      document.getElementById('step2-email').style.display = 'block';
+    }
+
+    function toggleSubmitButton() {
+      const checkbox = document.getElementById('agree-check');
+      const btn = document.getElementById('btn-email-submit');
+      btn.disabled = !checkbox.checked;
+    }
+
+    function submitEmail(event) {
+      event.preventDefault();
+      
+      const emailInput = document.getElementById('user-email').value;
+      if (!emailInput) return;
+
+      // ゲートコンテナを隠し、メインコンテンツを表示
+      document.getElementById('gate-container').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+
+      // プレフィル用のURLを生成してiframeにセット
+      // パラメータ名: entry.1788641189
+      const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeeDvsQ9k-AqJ6x_UDqSOxVRlSTxLSskrqUc2DHyXv-R-6iqQ/viewform";
+      const params = new URLSearchParams({
+        "embedded": "true",
+        "usp": "pp_url",
+        "entry.1788641189": emailInput
+      });
+
+      const finalUrl = `${baseUrl}?${params.toString()}`;
+      document.getElementById('google-form-iframe').src = finalUrl;
+
+      // メインコンテンツ表示後にスクロールアニメーションを初期化
+      initScrollAnimation();
+      
+      // ユーザーのメアドをローカルストレージ等に保存したい場合はここで実装可能
+      // (今回はプレフィルに留める)
+    }
+
     /* ==============================================
        料金シミュレーターロジック
     ============================================== */
@@ -703,7 +918,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       initOrderSimulator();
-      setTimeout(initScrollAnimation, 50);
+      // ゲート機能があるため、メインコンテンツのスクロールアニメーション初期化は
+      // メール登録後 (submitEmail内) で実行するように変更しました。
     });
   </script>
 </body>

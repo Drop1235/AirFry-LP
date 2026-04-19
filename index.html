@@ -10,9 +10,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  
+  <!-- LIFF SDK -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
   <style>
     /* =====================================================
-       CSS カスタムプロパティ (刷新: 健康的・信頼性・アクティブ)
+       CSS カスタムプロパティ (健康的・信頼性・アクティブ)
     ===================================================== */
     :root {
       --color-bg-primary:    #ffffff;
@@ -185,6 +189,18 @@
       font-weight: 700;
       cursor: pointer;
     }
+
+    /* ローディングスピナー */
+    .loading-spinner {
+      border: 4px solid rgba(0,0,0,0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: var(--color-accent-blue);
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
     /* =====================================================
        スクロールフェードインアニメーション
@@ -561,10 +577,16 @@
   ===================================================== -->
   <div id="gate-container">
     
-    <!-- ステップ1：LINEログイン画面 -->
-    <div id="step1-login" class="gate-card">
+    <!-- ローディング（LIFF初期化中） -->
+    <div id="step-loading" class="gate-card">
+      <div class="loading-spinner"></div>
+      <p style="font-weight: 700; color: var(--color-text-secondary);">LINE認証情報を読み込み中...</p>
+    </div>
+
+    <!-- ステップ1：LINEログイン画面 (初期非表示) -->
+    <div id="step1-login" class="gate-card" style="display: none;">
       <h2 class="gate-title">AirFry公式アカウント<br>友だち限定サービス</h2>
-      <button type="button" class="btn-line" onclick="goToStep2()">
+      <button type="button" class="btn-line" onclick="loginWithLine()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
           <path d="M21.928 11.607c0-4.975-5.06-9.018-11.272-9.018-6.216 0-11.276 4.043-11.276 9.018 0 4.475 4.086 8.288 9.616 8.91.373.08.882.25 1.012.568.117.288.076.738.034 1.026l-.317 1.954c-.097.58-.553 2.684 2.348 1.472 2.905-1.214 7.9-4.662 9.423-6.93.308-.475-.02-1.02-.02-1.02 0-.003.452-.28.452-5.98zm-14.863 1.854h-2.15v-4.103c0-.317.257-.574.575-.574.317 0 .574.257.574.574v2.955h1.002c.317 0 .574.257.574.574s-.257.574-.575.574zm3.17-2.955v2.38c0 .317-.257.574-.575.574s-.574-.257-.574-.574v-4.103c0-.317.257-.574.575-.574s.574.257.574.574v1.148zm4.332-1.148l-1.398 2.064v1.464c0 .317-.257.574-.575.574-.317 0-.574-.257-.574-.574v-4.103c0-.317.257-.574.575-.574.19 0 .363.092.468.243l1.247 1.84.002-.002v-1.507c0-.317.257-.574.575-.574.317 0 .574.257.574.574v4.103c0 .317-.257.574-.574.574-.19 0-.362-.093-.467-.243l-1.425-2.102v-.004zm2.146.43h1.002c.317 0 .574.257.574.574s-.257.574-.574.574h-1.002v1.23h1.002c.317 0 .574.257.574.574s-.257.574-.575.574h-1.577c-.317 0-.575-.257-.575-.574v-4.103c0-.317.258-.574.575-.574h1.577c.317 0 .574.257.574.574s-.257.574-.574.574h-1.002v1.15z"/>
         </svg>
@@ -782,12 +804,45 @@
   ===================================================== -->
   <script>
     /* ==============================================
-       ゲート機能 (ステップ遷移ロジック)
+       LIFF & ゲート機能 (ステップ遷移ロジック)
     ============================================== */
-    function goToStep2() {
-      // ステップ1を隠し、ステップ2を表示
-      document.getElementById('step1-login').style.display = 'none';
-      document.getElementById('step2-email').style.display = 'block';
+    const LIFF_ID = "2009206725-w4u2ipHo";
+
+    // LIFF初期化と認証状態チェック
+    async function initLiff() {
+      try {
+        await liff.init({ liffId: LIFF_ID });
+
+        // もしすでにメール登録が済んでいるなら直接メイン画面へ (オプション)
+        const savedEmail = localStorage.getItem('airfry_registered_email');
+        if (liff.isLoggedIn() && savedEmail) {
+           showMainContent(savedEmail);
+           return;
+        }
+
+        if (liff.isLoggedIn()) {
+          // ====== ステップ2: ログイン成功してるのでメール登録へ ======
+          document.getElementById('step-loading').style.display = 'none';
+          document.getElementById('step1-login').style.display = 'none';
+          document.getElementById('step2-email').style.display = 'block';
+        } else {
+          // ====== ステップ1: 未ログインなのでLINEログインボタン表示 ======
+          document.getElementById('step-loading').style.display = 'none';
+          document.getElementById('step1-login').style.display = 'block';
+          document.getElementById('step2-email').style.display = 'none';
+        }
+      } catch (error) {
+        console.error('LIFF initialization failed:', error);
+        // エラー時フォールバック（動作確認・ローカル等用）
+        document.getElementById('step-loading').style.display = 'none';
+        document.getElementById('step1-login').style.display = 'block';
+      }
+    }
+
+    // LINEでログイン（本番API実行）
+    function loginWithLine() {
+      // 認証後に元のページに戻るようリダイレクトURIを指定
+      liff.login({ redirectUri: window.location.href });
     }
 
     function toggleSubmitButton() {
@@ -796,12 +851,21 @@
       btn.disabled = !checkbox.checked;
     }
 
+    // ステップ2からステップ3への移行
     function submitEmail(event) {
       event.preventDefault();
       
       const emailInput = document.getElementById('user-email').value;
       if (!emailInput) return;
 
+      // 状態を保存してリロード時もスキップできるようにする (任意)
+      localStorage.setItem('airfry_registered_email', emailInput);
+
+      showMainContent(emailInput);
+    }
+
+    // ステップ3を表示し、GoogleフォームのURLを書き換える
+    function showMainContent(email) {
       // ゲートコンテナを隠し、メインコンテンツを表示
       document.getElementById('gate-container').style.display = 'none';
       document.getElementById('main-content').style.display = 'block';
@@ -812,7 +876,7 @@
       const params = new URLSearchParams({
         "embedded": "true",
         "usp": "pp_url",
-        "entry.1788641189": emailInput
+        "entry.1788641189": email
       });
 
       const finalUrl = `${baseUrl}?${params.toString()}`;
@@ -820,9 +884,6 @@
 
       // メインコンテンツ表示後にスクロールアニメーションを初期化
       initScrollAnimation();
-      
-      // ユーザーのメアドをローカルストレージ等に保存したい場合はここで実装可能
-      // (今回はプレフィルに留める)
     }
 
     /* ==============================================
@@ -918,8 +979,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       initOrderSimulator();
-      // ゲート機能があるため、メインコンテンツのスクロールアニメーション初期化は
-      // メール登録後 (submitEmail内) で実行するように変更しました。
+      // LIFF初期化＆ステップ判定スタート
+      initLiff();
     });
   </script>
 </body>

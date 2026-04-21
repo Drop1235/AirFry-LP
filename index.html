@@ -410,50 +410,54 @@
     /* =====================================================
        #uv-marketing セクション
     ===================================================== */
-    #uv-marketing { background: var(--color-bg-card); text-align: center; }
+    #uv-marketing { background: #f1f5f9; text-align: center; }
+    #uv-marketing .section-title { color: #1e3a8a; }
     
-    .uv-cards {
+    .uv-list {
       display: flex;
       flex-direction: column;
       gap: 20px;
       margin-top: 40px;
-    }
-    .uv-card {
-      background: var(--color-bg-surface);
-      border-radius: var(--radius-card);
-      padding: 32px 24px;
       text-align: left;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      border: 1px solid var(--color-border);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .uv-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    .uv-list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid #cbd5e1;
     }
-    .uv-card-icon {
-      font-size: 2.5rem;
-      margin-bottom: 16px;
+    .uv-list-item:last-child {
+      border-bottom: none;
+    }
+    .uv-list-icon {
+      font-size: 2.2rem;
+      flex-shrink: 0;
       line-height: 1;
     }
-    .uv-card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--color-text-primary);
-      margin-bottom: 12px;
+    .uv-list-content {
+      flex: 1;
     }
-    .uv-card-desc {
-      font-size: 0.9rem;
+    .uv-list-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+    .uv-list-desc {
+      font-size: 0.95rem;
       color: var(--color-text-secondary);
       line-height: 1.7;
     }
     @media (min-width: 768px) {
-      .uv-cards {
-        flex-direction: row;
+      .uv-list-item {
+        padding: 32px 0;
+        gap: 24px;
       }
-      .uv-card {
-        flex: 1;
-      }
+      .uv-list-icon { font-size: 2.5rem; }
     }
     
     /* =====================================================
@@ -463,33 +467,40 @@
     .features-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 24px;
       margin-top: 40px;
     }
     .feature-card {
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-card);
-      padding: 28px 24px;
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 32px 24px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-      transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      text-align: center;
     }
     .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--color-accent-blue);
+      content: none;
     }
     .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
     }
-    .feature-icon { font-size: 2.4rem; margin-bottom: 14px; display: block; }
-    .feature-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--color-text-primary); }
-    .feature-desc { font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.75; }
+    .feature-icon-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(0, 122, 255, 0.1);
+      margin-bottom: 24px;
+    }
+    .feature-icon { font-size: 2.8rem; line-height: 1; margin-bottom: 0; }
+    .feature-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; color: var(--color-text-primary); }
+    .feature-desc { font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.75; }
 
     /* =====================================================
        #official-gallery セクション
@@ -572,19 +583,32 @@
     }
     .price-sale-unit { font-size: 0.95rem; font-weight: 700; color: var(--color-accent-blue); }
     
-    /* Google Form iframe 埋め込み用 */
-    .form-iframe-wrapper {
+    /* Google Form 別タブボタン用 */
+    .form-external-wrapper {
       margin-top: 48px;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-      border: 1px solid var(--color-border);
-      overflow: hidden;
+      text-align: center;
     }
-    .form-iframe-wrapper iframe {
-      display: block;
+    .btn-order-external {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.15rem;
+      padding: 20px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(255, 107, 0, 0.4);
+      transition: all 0.3s ease;
       width: 100%;
-      background: #ffffff;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .btn-order-external:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(255, 107, 0, 0.5);
+      background: linear-gradient(135deg, #ff9d2e 0%, #ff7b1a 100%);
     }
 
     /* =====================================================
@@ -741,26 +765,32 @@
         </h2>
         <div class="divider fade-in-up" style="margin-left: auto; margin-right: auto;"></div>
         
-        <div class="uv-cards fade-in-up">
-          <!-- カード1 -->
-          <div class="uv-card">
-            <div class="uv-card-icon">🔋</div>
-            <h3 class="uv-card-title">全身の疲労を軽減</h3>
-            <p class="uv-card-desc">眼から入る紫外線は、脳に強いストレス信号を送り、全身の疲労物質（活性酸素）を発生させます。確実に紫外線をカットすることで、体力消耗を抑え、パフォーマンスを維持します。</p>
+        <div class="uv-list fade-in-up">
+          <!-- リスト項目1 -->
+          <div class="uv-list-item">
+            <div class="uv-list-icon">🔋</div>
+            <div class="uv-list-content">
+              <h3 class="uv-list-title">全身の疲労を軽減</h3>
+              <p class="uv-list-desc">眼から入る紫外線は、脳に強いストレス信号を送り、全身の疲労物質（活性酸素）を発生させます。確実に紫外線をカットすることで、体力消耗を抑え、パフォーマンスを維持します。</p>
+            </div>
           </div>
           
-          <!-- カード2 -->
-          <div class="uv-card">
-            <div class="uv-card-icon">👁️</div>
-            <h3 class="uv-card-title">深刻な眼病のリスクを防ぐ</h3>
-            <p class="uv-card-desc">子どもの頃からのダメージ蓄積は、白内障のリスクを大幅に高めます。また大人にとっても、長年の蓄積は視力低下につながる「翼状片」や「加齢黄斑変性」といった深刻な眼病の直接的な原因となります。</p>
+          <!-- リスト項目2 -->
+          <div class="uv-list-item">
+            <div class="uv-list-icon">👁️</div>
+            <div class="uv-list-content">
+              <h3 class="uv-list-title">深刻な眼病のリスクを防ぐ</h3>
+              <p class="uv-list-desc">子どもの頃からのダメージ蓄積は、白内障のリスクを大幅に高めます。また大人にとっても、長年の蓄積は視力低下につながる「翼状片」や「加齢黄斑変性」といった深刻な眼病の直接的な原因となります。</p>
+            </div>
           </div>
 
-          <!-- カード3 -->
-          <div class="uv-card">
-            <div class="uv-card-icon">✨</div>
-            <h3 class="uv-card-title">ストレスフリーな装着感</h3>
-            <p class="uv-card-desc">ジュニア期の眼の保護から、大人世代のパフォーマンス維持まで、確実な紫外線対策が不可欠です。激しい運動中でもズレない「AirFly」が、あらゆる世代の瞳と健康を守り抜きます。</p>
+          <!-- リスト項目3 -->
+          <div class="uv-list-item">
+            <div class="uv-list-icon">✨</div>
+            <div class="uv-list-content">
+              <h3 class="uv-list-title">ストレスフリーな装着感</h3>
+              <p class="uv-list-desc">ジュニア期の眼の保護から、大人世代のパフォーマンス維持まで、確実な紫外線対策が不可欠です。激しい運動中でもズレない「AirFly」が、あらゆる世代の瞳と健康を守り抜きます。</p>
+            </div>
           </div>
         </div>
       </div>
@@ -778,22 +808,22 @@
 
         <div class="features-grid">
           <div class="feature-card fade-in-up">
-            <span class="feature-icon">💧</span>
+            <div class="feature-icon-wrapper"><span class="feature-icon">💧</span></div>
             <h3 class="feature-title">汗でズレない</h3>
             <p class="feature-desc">鼻パッドがないため、汗をかいてもレンズが下がりません。激しい運動中もベストな視界を維持。</p>
           </div>
           <div class="feature-card fade-in-up">
-            <span class="feature-icon">👃</span>
+            <div class="feature-icon-wrapper"><span class="feature-icon">👃</span></div>
             <h3 class="feature-title">鼻に跡がつかない</h3>
             <p class="feature-desc">鼻への圧迫から解放され、長時間着用しても跡がつかない快適なフィット感を実現。</p>
           </div>
           <div class="feature-card fade-in-up">
-            <span class="feature-icon">🌐</span>
+            <div class="feature-icon-wrapper"><span class="feature-icon">🌐</span></div>
             <h3 class="feature-title">視界が広い</h3>
             <p class="feature-desc">フレームを極限まで排除したデザインで、上下左右の視野が拡大。プレーの判断力が向上。</p>
           </div>
           <div class="feature-card fade-in-up">
-            <span class="feature-icon">💄</span>
+            <div class="feature-icon-wrapper"><span class="feature-icon">💄</span></div>
             <h3 class="feature-title">化粧が落ちにくい</h3>
             <p class="feature-desc">鼻パッドがないため、ファンデーションが剥げたり鼻に跡が残る心配がありません。</p>
           </div>
@@ -868,9 +898,12 @@
           </div>
         </div>
 
-        <!-- Googleフォーム iframe埋め込み -->
-        <div class="form-iframe-wrapper fade-in-up" id="iframe-wrapper">
-          <iframe id="google-form-iframe" src="" height="1200" frameborder="0" marginheight="0" marginwidth="0">読み込み中…</iframe>
+        <!-- Googleフォーム 別タブ遷移ボタン -->
+        <div class="form-external-wrapper fade-in-up">
+          <a id="order-button" href="#" target="_blank" rel="noopener noreferrer" class="btn-order-external">
+            特別価格で注文する（別ウィンドウで開きます）
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
         </div>
       </div>
     </section>
@@ -974,7 +1007,7 @@
       });
 
       const finalUrl = `${baseUrl}?${params.toString()}`;
-      document.getElementById('google-form-iframe').src = finalUrl;
+      document.getElementById('order-button').href = finalUrl;
 
       // メインコンテンツ表示後にスクロールアニメーションを初期化
       initScrollAnimation();

@@ -954,9 +954,14 @@
           document.getElementById('step2-email').style.display = 'block';
         } else {
           // ====== ステップ1: 未ログインなのでLINEログインボタン表示 ======
-          document.getElementById('step-loading').style.display = 'none';
-          document.getElementById('step1-login').style.display = 'block';
-          document.getElementById('step2-email').style.display = 'none';
+          // LINEアプリ内ブラウザからのアクセスの場合は自動的にログイン画面へ遷移させる
+          if (liff.isInClient() || navigator.userAgent.indexOf("Line") !== -1) {
+            liff.login({ redirectUri: window.location.href });
+          } else {
+            document.getElementById('step-loading').style.display = 'none';
+            document.getElementById('step1-login').style.display = 'block';
+            document.getElementById('step2-email').style.display = 'none';
+          }
         }
       } catch (error) {
         console.error('LIFF initialization failed:', error);

@@ -12,7 +12,7 @@
 
 ## 3. UI/UXフロー設計（3ステップの状態遷移）と LINEログイン本番連携設計
 
-`Junior-Portal-Web`のLIFF実装（LIFF ID: `2009206725-w4u2ipHo`）を流用し、実際のLINE認証を利用した表示切り替えを行います。
+`Junior-Portal-Web`のLIFF実装（AirFry用LIFF ID: `2009896448-XrAcBh1l` に変更済み）を流用し、実際のLINE認証を利用した表示切り替えを行います。
 
 ### 導入: LIFF初期化処理
 *   ページロード時にLINE公式のSDK (`https://static.line-scdn.net/liff/edge/2/sdk.js`) を読み込み、`liff.init()` を実行。
